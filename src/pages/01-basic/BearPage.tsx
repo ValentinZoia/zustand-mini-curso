@@ -1,4 +1,9 @@
-import { WhiteCard } from '../../components';
+import { useShallow } from "zustand/shallow";
+import { WhiteCard } from "../../components";
+import BlackBears from "../../components/BlackBears";
+import PandaBears from "../../components/PandaBears";
+import PolarBears from "../../components/PolarBears";
+import { useBearStore } from "../../stores/bears/bears.store";
 
 export const BearPage = () => {
   return (
@@ -8,46 +13,43 @@ export const BearPage = () => {
       <hr />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <BlackBears />
 
-        <WhiteCard centered>
-          <h2>Osos Negros</h2>
+        <PolarBears />
 
-          <div className="flex flex-col md:flex-row">
-            <button> +1</button>
-            <span className="text-3xl mx-2 lg:mx-10"> 0 </span>
-            <button>-1</button>
-          </div>
+        <PandaBears />
 
-        </WhiteCard>
-
-        <WhiteCard centered>
-          <h2>Osos Polares</h2>
-
-          <div className="flex flex-col md:flex-row">
-            <button> +1</button>
-            <span className="text-3xl mx-2 lg:mx-10"> 0 </span>
-            <button>-1</button>
-
-          </div>
-
-        </WhiteCard>
-
-        <WhiteCard centered>
-          <h2>Osos Pandas</h2>
-
-          <div className="flex flex-col md:flex-row">
-            <button> +1</button>
-            <span className="text-3xl mx-2 lg:mx-10"> 0 </span>
-            <button>-1</button>
-          </div>
-
-        </WhiteCard>
-
-
-
-
+        <BearsDisplay />
       </div>
-
     </>
+  );
+};
+
+export const BearsDisplay = () => {
+  /*
+    useShallow
+    Cuando estemos trabajando con objetos anidados en la store,
+    y estamos regresando un nuevo estado, podemos usar useShallow.
+    Se encargara de analizar las propiedades del objeto, en este caso
+    bears, y confirmar si realmente cambió, si cambia se renderizara, y si no
+    no.
+  */
+  const bears = useBearStore(useShallow((state) => state.bears));
+  const doNothing = useBearStore((state) => state.doNothing);
+  const addBears = useBearStore(state => state.addBear);
+  const clearBears = useBearStore(state => state.clearBears);
+
+
+  return (
+    <WhiteCard>
+      <h1>Osos</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <button onClick={doNothing}>Do Nothing</button>
+      <button onClick={addBears}>Agregar Oso</button>
+      <button onClick={clearBears}>Borrar osos</button>
+      </div>
+      
+      {JSON.stringify(bears, null, 2)}
+    </WhiteCard>
   );
 };
