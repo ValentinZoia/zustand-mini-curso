@@ -1,6 +1,11 @@
 import {create} from 'zustand';
 import { persist } from 'zustand/middleware';
 
+/*
+Los estados cambian de una manera similar a redux, cuando cambiamos el estado,
+usando el set state, estamos emitiendo un nuevo estado
+*/
+
 
 //Objetos Anidados
 interface Bear {
