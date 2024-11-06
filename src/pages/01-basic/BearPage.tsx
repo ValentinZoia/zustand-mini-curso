@@ -4,6 +4,7 @@ import BlackBears from "../../components/BlackBears";
 import PandaBears from "../../components/PandaBears";
 import PolarBears from "../../components/PolarBears";
 import { useBearStore } from "../../stores/bears/bears.store";
+import { useTaskStore } from "../../stores";
 
 export const BearPage = () => {
   return (
@@ -38,6 +39,7 @@ export const BearsDisplay = () => {
   const doNothing = useBearStore((state) => state.doNothing);
   const addBears = useBearStore(state => state.addBear);
   const clearBears = useBearStore(state => state.clearBears);
+  
 
 
   return (
@@ -50,6 +52,7 @@ export const BearsDisplay = () => {
       </div>
       
       {JSON.stringify(bears, null, 2)}
+      
     </WhiteCard>
   );
 };
