@@ -32,11 +32,11 @@ export const JiraPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           
-          <JiraTasks title='pending' value='pending' tasks={TasksPending} />
+          <JiraTasks title='pending' status='pending' tasks={TasksPending} />
           
-          <JiraTasks title='in-progress' value='in-progress' tasks={TasksInProgress} />
+          <JiraTasks title='in-progress' status='in-progress' tasks={TasksInProgress} />
           
-          <JiraTasks title='done' value='done'  tasks={TasksDone}/>
+          <JiraTasks title='done' status='done'  tasks={TasksDone}/>
 
       </div>
 
