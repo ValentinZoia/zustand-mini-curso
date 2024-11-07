@@ -1,4 +1,4 @@
-import { IoCheckmarkCircleOutline, IoEllipsisHorizontalOutline } from 'react-icons/io5';
+import { IoAddOutline, IoCheckmarkCircleOutline,  } from 'react-icons/io5';
 import classNames from 'classnames';
 
 import { Task, TaskStatus } from '../../interfaces';
@@ -15,9 +15,15 @@ interface Props {
 
 export const JiraTasks = ({ title, tasks, value }: Props) => {
 
-
+  const onTaskDrop = useTaskStore(state => state.onTaskDrop);
   const isDragging = useTaskStore(state => !!state.draggingTaskId);
-  const [onDragOver, setOnDragOver] = useState<boolean>(false)
+  const addTask = useTaskStore(state => state.addTask);
+
+  const [onDragOver, setOnDragOver] = useState<boolean>(false);
+
+  const handleAddTask = () => {
+    addTask('Nuevo titulo', value)
+  }
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -26,20 +32,23 @@ export const JiraTasks = ({ title, tasks, value }: Props) => {
   };
 
   const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    // event.preventDefault();
-    console.log('onDragLeave');
+    
+    event.preventDefault();
     setOnDragOver(false);
   };
   
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    // event.preventDefault();
-    console.log('onDrop',value)
+    event.preventDefault();
+    
     setOnDragOver(false);
+    
+    onTaskDrop(value);
+
   }
 
 
-
+  
 
   return (
     <div 
@@ -47,7 +56,7 @@ export const JiraTasks = ({ title, tasks, value }: Props) => {
     onDragLeave={handleDragLeave}
     onDrop={handleDrop}
     className={
-      classNames("!text-black border-4  relative flex flex-col rounded-[20px]  bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]",{
+      classNames("!text-black border-4  min-h-[300px] relative flex flex-col rounded-[20px]  bg-white bg-clip-border shadow-3xl shadow-shadow-500  w-full !p-4 3xl:p-![18px]",{
           'border-blue-500 border-dotted': isDragging,
           'border-green-500': isDragging && onDragOver
       })
@@ -68,8 +77,8 @@ export const JiraTasks = ({ title, tasks, value }: Props) => {
           <h4 className="ml-4 text-xl font-bold text-navy-700">{ title }</h4>
         </div>
 
-        <button>
-          <IoEllipsisHorizontalOutline />
+        <button onClick={handleAddTask}>
+          <IoAddOutline />
         </button>
 
       </div>
